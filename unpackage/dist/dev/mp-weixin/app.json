@@ -1,0 +1,26 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/index/show",
+    "pages/component/test",
+    "pages/index/new_file",
+    "pages/index/DownPullRefresh",
+    "pages/query/queryresult",
+    "pages/testPages/index",
+    "pages/query/index",
+    "pages/index/prepage"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarBackgroundColor": "#0081ff",
+    "navigationBarTitleText": "",
+    "navigationStyle": "custom",
+    "navigationBarTextStyle": "white"
+  },
+  "usingComponents": {
+    "basics": "/pages/basic/home",
+    "components": "/pages/component/home",
+    "plugin": "/pages/plugin/home",
+    "cu-custom": "/colorui/components/cu-custom"
+  }
+}

@@ -1,0 +1,21 @@
+
+.cu-avatar.xl {
+	width: 200rpx;
+	height: 200rpx;
+	margin-left: 5%;
+}
+.box {
+	/* margin: 20upx 0; */
+}
+.box view.cu-bar {
+	/* margin-top: 20upx; */
+	/* margin-bottom: -10px; */
+}
+.page {
+	height: 30Vh;
+	width: 100vw;
+}
+.page.show {
+	overflow: hidden;
+}
+
