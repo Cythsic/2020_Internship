@@ -44,6 +44,7 @@
 </template>
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue";
+	import api_config from '../../api_config.js';
 	var _self, page = 1;
 	var len = 0;
 	var num;
@@ -81,7 +82,7 @@
 			console.log(num)
 			console.log(startDate)
 			uni.request({
-				url: 'http://www.suitdo.cn/api/login/getattendance?userid=' + num + '&startdtime=' + startDate + '&enddtime=' +
+				url: api_config.check_attendence1 + num + api_config.check_attendence2 + startDate + api_config.check_attendence3 +
 					endDate,
 				method: 'GET',
 				success: function(res) {

@@ -8,7 +8,11 @@
 		},
 		onHide: function() {
 			console.log('App Hide');
-		}
+			// uni.clearStorage();
+		},
+		// onUnload:function(){
+		// 	uni.clearStorage();
+		// }
 	};
 </script>
 

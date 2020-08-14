@@ -3,27 +3,12 @@
 		{
 			"path": "pages/index/index",
 			"style": {}
-		}
-	    ,{
-            "path" : "pages/index/show",
-            "style" : {}
-        },
+		},
 		{
 			"path": "pages/component/test",
 			"style": {}
 		},
-		{
-			"path": "pages/index/new_file",
-			"style": {}
-		},
-		{
-			"path": "pages/index/DownPullRefresh",
-			"style": {
-				"enablePullDownRefresh": true
-			}
-		}
-		
-        ,{
+        {
             "path" : "pages/query/queryresult",
             "style" : {
 			}
@@ -34,10 +19,6 @@
 		},
 		{
 			"path":"pages/query/index",
-			"style":{}
-		},
-		{
-			"path":"pages/index/prepage",
 			"style":{}
 		}
     ],

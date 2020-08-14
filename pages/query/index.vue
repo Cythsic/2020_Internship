@@ -123,6 +123,11 @@
 						usrName=res.data.data.name;
 						that.num=res.data.data.extattr.attrs[0].value;
 						num=res.data.data.extattr.attrs[0].value;
+					},
+					fail: (res) => {
+						uni.showToast({
+							title:"fail:"+JSON.stringify(res)
+						})
 					}
 				});
 			},

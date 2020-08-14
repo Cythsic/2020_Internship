@@ -8,7 +8,7 @@
 					<!-- <text class="text-white" style="font-size: small;" id="ch_font">code：{{code}}</text> -->
 					<text class="text-white" style="font-size: small;" id="ch_font">姓名：{{usrName}}</text>
 					<text class="text-white" style="font-size: small;" id="ch_font"> 工号:{{num}}</text>
-					<!-- <text class="text-white" style="font-size: small;" id="ch_font">当前地址：{{local_path}}</text> -->
+					<!-- <text class="text-white" style="font-size: small;" id="ch_font">当前ID：{{txt}}</text> -->
 				</view>
 			</view>
 			<view class="application">
@@ -43,8 +43,6 @@
 					</view>
 				</view>
 			</view>
-
-
 			<br>
 			<view class="list-content">
 				<view class="cu-list menu" :class="[menuBorder?'sm-border':'',menuCard?'card-menu margin-top':'']">
@@ -208,15 +206,16 @@
 				local_path: '',
 				txt: '',
 				token: '',
-				usrid: ''
+				usrid: '',
+				res: ''
 			};
 		},
 
 		onLoad: function(options) {
 			let that = this;
 			var name;
-			var str = 'www.baidu.com?code=23456';
-			//var str=location.href;
+			//var str = 'www.baidu.com?code=23456';
+			var str = location.href;
 			var num = str.indexOf("?")
 			let param = "code";
 			str = str.substr(num + 1); //取得所有参数 stringvar.substr(start [, length ]
@@ -230,35 +229,23 @@
 					}
 				}
 			}
-			that.local_path = str;
 			that.code = helper.usrCode;
-			uni.getStorage({
-				key: 'wxuser_info',
-				success: (res) => {
-					that.$data.usrName = res.data.data.name;
-					that.$data.num = res.data.data.extattr.attrs[0].value;
-					that.$data.portrait = res.data.data.avatar;
-				},
-				fail: () => {
+			uni.request({
+				url: '/api/cgi-bin/gettoken?corpid=wx9320d37828f8e3fc&corpsecret=Y_JZZKnBrp3hiUoUC-SA7hBU0C-IvS1abbys2QuA3w0',
+				success: (res1) => {
+					let if_that = this;
+					helper.token = res1.data.access_token;
 					uni.request({
-						url: 'https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=wx9320d37828f8e3fc&corpsecret=Y_JZZKnBrp3hiUoUC-SA7hBU0C-IvS1abbys2QuA3w0',
-						success: (res1) => {
-							helper.token = res1.data.access_token;
-							that.token = helper.token;
-							console.log("success:" + JSON.stringify(res1));
-							uni.showToast({
-								title: "success:" + JSON.stringify(res1)
-							});
+						url: '/api/cgi-bin/user/getuserinfo?access_token=' + helper.token + '&code=' + helper.usrCode,
+						success: (res2) => {
+							helper.usrId = res2.data.UserId;
 							uni.request({
-								url: 'https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=' + helper.token + '&userid=TengdaZhu',
-								success: (res2) => {
-									console.log(res2)
-									that.$data.usrName = res2.data.name;
-									that.$data.num = res2.data.extattr.attrs[0].value;
-									that.$data.portrait = res2.data.avatar;
+								url: '/api/cgi-bin/user/get?access_token=' + helper.token +
+									'&userid=' + helper.usrId,
+								success: (res3) => {
 									uni.setStorage({
 										key: "wxuser_info",
-										data: res2
+										data: res3
 									});
 									uni.getStorage({
 										key: 'wxuser_info',
@@ -267,28 +254,31 @@
 											that.$data.num = res.data.data.extattr.attrs[0].value;
 											that.$data.portrait = res.data.data.avatar;
 										}
-
 									});
-								},
-								fail: (res1) => {
-									that.token = res1;
-									console.log("fail:" + JSON.stringify(res1));
-									uni.showToast({
-										title: "fail:" + JSON.stringify(res1)
-									})
 								}
-							});
+							})
+						},
+						fail: (res2) => {
+							if_that.txt = JSON.stringify(res2);
 						}
 					});
-					// uni.getStorage({
-					// 	key:'code',
-					// 	success:function(res){
-					// 		that.code=res.data;
-					// 	}
-					// });
-
 				},
+				fail: (res1) => {
+					that.token = res1;
+					console.log("fail:" + JSON.stringify(res1));
+					uni.showToast({
+						title: "fail:" + JSON.stringify(res1)
+					})
+				}
 			});
+			// 	}
+			// });
+			// uni.getStorage({
+			// 	key:'code',
+			// 	success:function(res){
+			// 		that.code=res.data;
+			// 	}
+			// });
 		},
 		methods: {
 			NavChange: function(e) {
@@ -297,6 +287,24 @@
 					url: '../index/index'
 				})
 			},
+		},
+		onShow: function() {
+			uni.getStorage({
+				key: 'wxuser_info',
+				success: (res) => {
+					that.$data.usrName = res.data.data.name;
+					that.$data.num = res.data.data.extattr.attrs[0].value;
+					that.$data.portrait = res.data.data.avatar;
+				},
+				fail: () => {
+					uni.showToast({
+						title: "您的登录已过期，请重新进入"
+					})
+				}
+			});
 		}
+		// onUnload:function(){
+		// 	uni.clearStorage();
+		// }
 	}
 </script>

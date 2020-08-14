@@ -53,19 +53,19 @@
         "router" : {
             "base" : "./",
             "mode" : "hash"
+        },
+        "devServer" : {
+			"disableHostCheck": true,
+			"proxy":{
+				"/api":{
+					"target": "https://qyapi.weixin.qq.com",
+					"changeOrigin": true,
+					"secure": false,
+					"pathRewrite":{
+						"^/api" : ""
+					}
+				}
+			}
         }
-   //      "devServer" : {
-			// "disableHostCheck": true,
-			// "proxy":{
-			// 	"/api":{
-			// 		"target": "https://qyapi.weixin.qq.com",
-			// 		"changeOrigin": true,
-			// 		"secure": false,
-			// 		"pathRewrite":{
-			// 			"^/api" : "/"
-			// 		}
-			// 	}
-			// }
-   //      }
     }
 }
