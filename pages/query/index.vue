@@ -2,7 +2,7 @@
 	<view>
 		<view class="body">
 			<view>
-				<navigator url="../index/index">
+				<navigator url="../index/home">
 					<uni-nav-bar left-icon="back" left-text="返回" title="查询结果" fixed="true" backgroundColor="#3761b0" color="white"
 					 class="navbar"></uni-nav-bar>
 				</navigator>
@@ -59,11 +59,11 @@
 		
 			</view>
 		
-			<view class="action" @click="NavChange" data-cur="plugin">
+			<view class="action" @click="NavChange" data-cur="about">
 				<view class='cuIcon-cu-image'>
-					<image :src="'/static/tabbar/plugin' + [PageCur == 'plugin'?'_cur':''] + '.png'"></image>
+					<image :src="'/static/tabbar/about' + [PageCur == 'about'?'_cur':''] + '.png'"></image>
 				</view>
-				<view :class="PageCur=='plugin'?'text-green':'text-gray'">我的</view>
+				<view :class="PageCur=='about'?'text-green':'text-gray'">我的</view>
 			</view>
 		</view>
 		
@@ -111,7 +111,7 @@
 			NavChange: function(e) {
 				this.PageCur = e.currentTarget.dataset.cur;
 				uni.navigateTo({
-					url: '../index/index'
+					url: '../index/home'
 				})
 			},
 			onLoad: function(options) {

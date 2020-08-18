@@ -4,21 +4,29 @@
 			"path": "pages/index/index",
 			"style": {}
 		},
-		{
-			"path": "pages/component/test",
-			"style": {}
-		},
         {
             "path" : "pages/query/queryresult",
             "style" : {
 			}
         },
 		{
-			"path":"pages/testPages/index",
+			"path":"pages/query/index",
 			"style":{}
 		},
 		{
-			"path":"pages/query/index",
+			"path":"pages/index/home",
+			"style":{}
+		},
+		{
+			"path":"pages/index/about",
+			"style":{}
+		},
+		{
+			"path":"pages/component/home",
+			"style":{}
+		},
+		{
+			"path":"pages/plugin/home",
 			"style":{}
 		}
     ],

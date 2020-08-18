@@ -11,7 +11,7 @@
 				<view class="cu-item" :class="menuArrow?'arrow':''" v-for="(item,index) in QueryResultList" :key='index'>
 					<view class="content">
 						<view>
-							<text class="text-grey text-bold">{{item.userName}}({{item.userID}})</text>
+							<text class="text-grey text-bold">{{item.userName}}({{item.userID.slice(2)}})</text>
 						</view>
 						<text class="text-grey text-sm">{{item.workShift}}</text>
 					</view>
@@ -32,11 +32,11 @@
 				<view :class="PageCur=='basics'?'text-green':'text-gray'">首页</view>
 			</view>
 
-			<view class="action" @click="NavChange" data-cur="plugin">
+			<view class="action" data-cur="about">
 				<view class='cuIcon-cu-image'>
-					<image :src="'/static/tabbar/plugin' + [PageCur == 'plugin'?'_cur':''] + '.png'"></image>
+					<image :src="'/static/tabbar/about' + [PageCur == 'about'?'_cur':''] + '.png'"></image>
 				</view>
-				<view :class="PageCur=='plugin'?'text-green':'text-gray'">我的</view>
+				<view :class="PageCur=='about'?'text-green':'text-gray'">我的</view>
 			</view>
 		</view>
 
@@ -79,6 +79,12 @@
 			num = options.number;
 			startDate = options.startDate;
 			endDate = options.endDate;
+			if(startDate=='请选择'){
+				startDate=_self.GetTime(6);
+			}
+			if(endDate=='请选择'){
+				endDate=_self.GetTime(-1);
+			}
 			console.log(num)
 			console.log(startDate)
 			uni.request({
@@ -88,15 +94,36 @@
 				success: function(res) {
 					console.log(res.data)
 					_self.QueryResultList = res.data.slice(0, 10);
+					uni.setStorageSync('resList',res.data);
 				},
 			});
 		},
 
 		methods: {
+			GetTime(predays) {
+				var date = new Date();
+				var base = Date.parse(date); // 转换为时间戳
+				var year = date.getFullYear(); //获取当前年份
+				var mon = date.getMonth() + 1; //获取当前月份
+				var day = date.getDate(); //获取当前日
+				var oneDay = 24 * 3600 * 1000
+				var daytime = `${year}${mon >= 10 ? mon : '0' + mon}${day >= 10 ? day : '0' + day}`; //今日时间
+				//this.$data.daytime = daytime; // 今日时间赋值给变量
+			
+				//var daytimeArr = []
+				 //前七天的时间
+					var now = new Date(base -= oneDay*predays);
+					var myear = now.getFullYear();
+					var month = now.getMonth() + 1;
+					var mday = now.getDate()
+					//daytimeArr.push([myear, month >= 10 ? month : '0' + month, mday >= 10 ? mday : '0' + mday].join('-'))
+					var dd=[myear, month >= 10 ? month : '0' + month, mday >= 10 ? mday : '0' + mday].join('-')
+				return dd
+			},
 			NavChange: function(e) {
 				this.PageCur = e.currentTarget.dataset.cur;
 				uni.navigateTo({
-					url: '../index/index'
+					url: '../index/home'
 				})
 			},
 			// 产品列表数据
@@ -118,19 +145,17 @@
 				_self.loadingType = 1;
 				// console.log(page);
 				uni.showNavigationBarLoading(); //显示加载动画
-				uni.request({
-					url: 'http://www.suitdo.cn/api/login/getattendance',
-					method: 'GET',
-					data: {
-						userid: num,
-						startdtime: startDate,
-						enddtime: endDate,
-					},
-					success: function(res) {
+				// uni.request({
+				// 	url: api_config.check_attendence1 + num + api_config.check_attendence2 + startDate + api_config.check_attendence3 +
+				// 	endDate,
+				// 	method: 'GET',
+				// 	success: function(res) {
+					var tempList=[];
+					tempList=uni.getStorageSync('resList');
 						let n;
 						let len = 0;
-						for (n in res.data) {
-							if (res.data.hasOwnProperty(n)) {
+						for (n in tempList) {
+							if (tempList.hasOwnProperty(n)) {
 								len++;
 							}
 						}
@@ -149,12 +174,12 @@
 							uni.hideNavigationBarLoading(); //关闭加载动画
 							return false;
 						} else {
-							_self.getNewsList(page, res.data);
+							_self.getNewsList(page, tempList);
 						}
 						_self.loadingType = 0; //将loadingType归0重置
 						uni.hideNavigationBarLoading(); //关闭加载动画
-					},
-				});
+				// 	},
+				// });
 			},
 
 		}
@@ -182,12 +207,12 @@
 	}
 
 	.cu-bar {
-		padding: 17px;
+		/* padding: 17px; */
 		position: fixed;
 		width: 100%;
 	}
 	
 	.result{
-		margin-bottom: calc(100upx + env(safe-area-inset-bottom) / 2);
+		padding-bottom: calc(100upx + env(safe-area-inset-bottom) / 2);
 	}
 </style>
