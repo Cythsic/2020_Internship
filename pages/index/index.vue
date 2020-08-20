@@ -19,7 +19,7 @@
 			let that = this;
 			let name = "code";
 			//获得code
-			that.GetCode(name);
+			that.GetCode(name); //获取链接中的code
 			//获得token
 			uni.request({
 				url: api_config.wx_token,

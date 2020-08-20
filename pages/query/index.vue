@@ -15,15 +15,15 @@
 					</view>
 					<view class="cu-form-group">
 						<view class="title">工号</view>
-						<input placeholder="请输入你的工号" name="number" type="text" disabled="true" :value="num"></input>
+						<input placeholder="请输入你的工号" name="number" type="text" disabled="true" :value="num" ></input>
 					</view>
 				</view>
 				<view class="margin-top">
 					<view class="cu-form-group">
 						<view class="title">查询班次</view>
-						<picker @change="pickerChange" :value="index" :range="picker" name="duty">
+						<picker @change="pickerChange" :value="index" :range="picker" name="duty" required>
 							<view class="picker">
-								{{index>-1?picker[index]:'选择查询班次'}}
+								{{index>-1?picker[index]:'全部班次'}}
 							</view>
 						</picker>
 					</view>
@@ -83,7 +83,7 @@
 	export default {
 		data() {
 			return {
-				picker: ['未选择', '上班', '下班'],
+				picker: ['全部班次', '上班', '下班'],
 				index: -1,
 				date1: "请选择",
 				date2: "请选择",
@@ -103,10 +103,25 @@
 			DateChange2(e) {
 				this.date2 = e.detail.value
 			},
-			naviToQuery() {
-				uni.navigateTo({
-					url: "queryresult"
-				})
+			GetTime(predays) {
+				var date = new Date();
+				var base = Date.parse(date); // 转换为时间戳
+				var year = date.getFullYear(); //获取当前年份
+				var mon = date.getMonth() + 1; //获取当前月份
+				var day = date.getDate(); //获取当前日
+				var oneDay = 24 * 3600 * 1000
+				var daytime = `${year}${mon >= 10 ? mon : '0' + mon}${day >= 10 ? day : '0' + day}`; //今日时间
+				//this.$data.daytime = daytime; // 今日时间赋值给变量
+			
+				//var daytimeArr = []
+				 //前七天的时间
+					var now = new Date(base -= oneDay*predays);
+					var myear = now.getFullYear();
+					var month = now.getMonth() + 1;
+					var mday = now.getDate()
+					//daytimeArr.push([myear, month >= 10 ? month : '0' + month, mday >= 10 ? mday : '0' + mday].join('-'))
+					var dd=[myear, month >= 10 ? month : '0' + month, mday >= 10 ? mday : '0' + mday].join('-')
+				return dd
 			},
 			NavChange: function(e) {
 				this.PageCur = e.currentTarget.dataset.cur;
@@ -116,6 +131,8 @@
 			},
 			onLoad: function(options) {
 				let that=this;
+				that.$data.date1=that.GetTime(6);
+				that.$data.date2=that.GetTime(-1);
 				uni.getStorage({
 					key:"wxuser_info",
 					success: (res) => {
@@ -126,16 +143,19 @@
 					},
 					fail: (res) => {
 						uni.showToast({
-							title:"fail:"+JSON.stringify(res)
+							title:"您的登陆已过期，请重新进入应用"
 						})
 					}
 				});
 			},
 			formSubmit: function(e) {
-				//console.log('form发生了submit事件，携带数据为：' + JSON.stringify(e.detail.value));
+				
 				var formdata = e.detail.value;
+				
+				uni.setStorageSync('formdata',formdata);
+				//console.log('form发生了submit事件，携带数据为：' + JSON.stringify(formdata));
 				uni.navigateTo({
-					url: './queryresult?&number='+num+'&duty=' + formdata.duty + '&startDate=' + formdata.startDate +
+					url: './queryresult?number='+num+'&duty=' + formdata.duty + '&startDate=' + formdata.startDate +
 						'&endDate=' + formdata.endDate,
 				})
 			},

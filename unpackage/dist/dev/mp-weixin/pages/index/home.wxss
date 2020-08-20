@@ -7,7 +7,7 @@
 	font-size: 17px;
 }
 #top-bg {
-	background-color: #3761b0;
+	background-color: #5076b8;
 	height: 200px;
 	width: 100%;
 }
@@ -42,7 +42,9 @@
 	margin-top: 10%;
 }
 .list-content {
-	margin-bottom: calc(100rpx + env(safe-area-inset-bottom) / 2);
+	/* margin-bottom: calc(100upx + env(safe-area-inset-bottom) / 2); */
+	/* bottom: calc(100upx + env(safe-area-inset-bottom) / 2); */
+	padding-bottom: calc(100rpx + env(safe-area-inset-bottom) / 2);
 }
 #grid1 {
 	border-radius: 10%;

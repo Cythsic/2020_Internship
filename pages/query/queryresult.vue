@@ -50,6 +50,7 @@
 	var num;
 	var startDate;
 	var endDate;
+	var duty;
 	export default {
 		components: {
 			uniNavBar
@@ -76,20 +77,30 @@
 		},
 		onLoad: function(options) {
 			_self = this;
-			num = options.number;
-			startDate = options.startDate;
-			endDate = options.endDate;
-			if(startDate=='请选择'){
-				startDate=_self.GetTime(6);
-			}
-			if(endDate=='请选择'){
-				endDate=_self.GetTime(-1);
-			}
-			console.log(num)
-			console.log(startDate)
+			var formd=uni.getStorageSync('formdata')
+			num = formd.number;
+			startDate = formd.startDate;
+			endDate = formd.endDate;
+			duty = formd.duty;
+			console.log(duty)
+			console.log("Start:"+startDate)
+			console.log("End:"+endDate)
+			// console.log("Duty:"+formd.duty)
+			// console.log("startdate:"+startDate)
+			// if(startDate=='请选择'){
+			// 	startDate=_self.GetTime(6);
+			// }
+			// if(endDate=='请选择'){
+			// 	endDate=_self.GetTime(-1);
+			// }
+			// console.log(num)
+			// console.log(startDate)
+			let url=api_config.check_attendence1 + num + api_config.check_attendence2 + startDate + api_config.check_attendence3 +
+					endDate + api_config.check_attendence4 + duty;
+			
 			uni.request({
 				url: api_config.check_attendence1 + num + api_config.check_attendence2 + startDate + api_config.check_attendence3 +
-					endDate,
+					endDate + api_config.check_attendence4 + duty,
 				method: 'GET',
 				success: function(res) {
 					console.log(res.data)
@@ -100,26 +111,6 @@
 		},
 
 		methods: {
-			GetTime(predays) {
-				var date = new Date();
-				var base = Date.parse(date); // 转换为时间戳
-				var year = date.getFullYear(); //获取当前年份
-				var mon = date.getMonth() + 1; //获取当前月份
-				var day = date.getDate(); //获取当前日
-				var oneDay = 24 * 3600 * 1000
-				var daytime = `${year}${mon >= 10 ? mon : '0' + mon}${day >= 10 ? day : '0' + day}`; //今日时间
-				//this.$data.daytime = daytime; // 今日时间赋值给变量
-			
-				//var daytimeArr = []
-				 //前七天的时间
-					var now = new Date(base -= oneDay*predays);
-					var myear = now.getFullYear();
-					var month = now.getMonth() + 1;
-					var mday = now.getDate()
-					//daytimeArr.push([myear, month >= 10 ? month : '0' + month, mday >= 10 ? mday : '0' + mday].join('-'))
-					var dd=[myear, month >= 10 ? month : '0' + month, mday >= 10 ? mday : '0' + mday].join('-')
-				return dd
-			},
 			NavChange: function(e) {
 				this.PageCur = e.currentTarget.dataset.cur;
 				uni.navigateTo({

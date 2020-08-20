@@ -162,6 +162,37 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* .cu-list.menu {
 	height: 80%;
 	width: 100%;
@@ -177,11 +208,11 @@
 	margin: 20rpx 0;
 }
 .cu-bar.data-v-6a49cc16 {
-	padding: 17px;
+	/* padding: 17px; */
 	position: fixed;
 	width: 100%;
 }
 .result.data-v-6a49cc16{
-	margin-bottom: calc(100rpx + env(safe-area-inset-bottom) / 2);
+	padding-bottom: calc(100rpx + env(safe-area-inset-bottom) / 2);
 }
 

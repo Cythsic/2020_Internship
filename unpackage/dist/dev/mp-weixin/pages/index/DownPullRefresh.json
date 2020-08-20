@@ -1,7 +1,0 @@
-{
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "uni-load-more": "/components/uni-load-more/uni-load-more",
-    "sib-list": "/components/sib-list/sib-list"
-  }
-}

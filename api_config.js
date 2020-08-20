@@ -7,6 +7,7 @@ const wx_userinfo2='&userid=';
 const check_attendence1='http://www.suitdo.cn/HR/api/login/getattendance?userid=';
 const check_attendence2='&startdtime=';
 const check_attendence3='&enddtime=';
+const check_attendence4='&usershift=';
 
 export default {
 	wx_token,
@@ -16,5 +17,6 @@ export default {
 	wx_userinfo2,
 	check_attendence1,
 	check_attendence2,
-	check_attendence3
+	check_attendence3,
+	check_attendence4
 }

@@ -3272,7 +3272,7 @@ scroll-view.cu-steps .cu-item {
 	color: #666666;
 }
 .bg-qywx {
-	background-color: #3761b0;
+	background-color: #5076b8;
 	color: #FFFFFF;
 }
 .bg-shadeTop {
